@@ -138,7 +138,7 @@ function generateLabelLinks() {
         const filename = `${chemical.toLowerCase().replace(/[\/\s]/g, '-')}-label.pdf`;
         const displayName = chemical.split('/')[0].trim(); // Use only the first name of the chemical name
         html += `
-            <a class="label-link" href="/labels/${filename}" target="_blank">
+            <a class="label-link" href="https://cs81turf.github.io/chemical-mixing-calculator/labels/${filename}" target="_blank">
                 ${chemical} Label
             </a>
         `;
