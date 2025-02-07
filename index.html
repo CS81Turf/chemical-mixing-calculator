@@ -1,130 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Chemical Mixing Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truck/T3100 Chemical Mixing Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <h1>Chemical Mixing Assistant</h1>
-    <div id="preset-buttons">
-        <button type="button" onclick="loadPreset('Round 1')">Round 1</button>
-        <button type="button" onclick="loadPreset('Round 2')">Round 2</button>
-        <button type="button" onclick="loadPreset('Round 3')">Round 3</button>
-        <button type="button" onclick="loadPreset('Round 4')">Round 4</button>
-        <button type="button" onclick="loadPreset('Round 5')">Round 5</button>
-        <button type="button" onclick="loadPreset('Round 6')">Round 6</button>
-        <button type="button" onclick="loadPreset('Grub')">Grub</button>
-        <button type="button" onclick="loadPreset('Sports Turf')">Sports Turf</button>
-        <button type="button" onclick="loadPreset('Mosquito')">Mosquito</button>
-        <button type="button" onclick="loadPreset('Wild Violet')">Wild Violet</button>
-        <button type="button" onclick="loadPreset('Grassy Weed')">Grassy Weed</button>
-        <button type="button" onclick="loadPreset('Flea and Tick')">Flea and Tick</button>
-        <button type="button" onclick="loadPreset('Summer Disease')">Summer Disease</button>
+    <div class="container">
+        <h1>Truck/T3100 Mixing Assistant</h1>
+
+        <div class="input-group">
+            <label for="water-volume">Water Volume (in gallons):</label>
+            <input type="number" id="water-volume" min="1" step="1" required placeholder="Enter water volume">
+        </div>
+
+        <div class="input-group">
+            <label for="sq-feet">Square Footage (in thousands):</label>
+            <input type="number" id="sq-feet" min="1" step="1">
+        </div>
+
+        <div class="button-grid">
+            <button class="round-btn" data-preset="round1">Round 1</button>
+            <button class="round-btn" data-preset="round2">Round 2</button>
+            <button class="round-btn" data-preset="round3">Round 3</button>
+            <button class="round-btn" data-preset="round4">Round 4</button>
+            <button class="round-btn" data-preset="round5">Round 5</button>
+            <button class="round-btn" data-preset="round6">Round 6</button>
+            <button class="pest-btn" data-preset="grub">Grub/Flea & Tick</button>
+            <button class="pest-btn" data-preset="mosquito">Mosquito</button>
+            <button class="weed-btn" data-preset="violet">Wild Violet</button>
+            <button class="weed-btn" data-preset="grassy">Grassy Weed</button>
+            <button class="disease-btn" data-preset="summer">Summer Disease</button>
+            <button class="utility-btn calculator">Calculator</button>
+            <button class="utility-btn labels">Labels</button>
+        </div>
+
+
+        <div id="results" class="hidden">
+            <h2>Mixing Instructions</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Chemical</th>
+                        <th>Rate (oz/M)</th>
+                        <th>Amount to Use</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body"></tbody>
+            </table>
+        </div>
+
+        <div id="labels-list" class="hidden"></div>
     </div>
-    
-    <form id="mixing-form">
-        <label for="sq_feet">Sq Ft (*1000):</label>
-        <input type="number" id="sq_feet" name="sq_feet" min="1000" max="400000" required placeholder="Enter sq. ft." inputmode="numeric" pattern="[0-9]*">
-        
-        <div class="chemical-inputs">
-            <!-- Repeat for up to 5 chemicals -->
-            <div class="chemical-row">
-                <div class="chemical-column">
-                    <label for="chemical1">Chemical 1:</label>
-                    <select id="chemical1" name="chemical1" class="chemical-select" onchange="updateRate(1)" required>
-                        <option value="" disabled selected>Select chemical</option>
-                        <option value="3-Way">3-Way</option>
-                        <option value="Triclopyr">Triclopyr</option>
-                        <option value="Dimension">Dimension</option>
-                        <option value="ChemStick">ChemStick</option>
-                        <option value="Bifenthrin">Bifenthrin</option>
-                        !-- Add more options as needed --h>
-                    </select>
-                </div>
-                <div class="chemical-column">
-                    <label for="rate1">Rate (oz/M):</label>
-                    <input type="number" step="0.01" id="rate1" name="rate1" class="chemical-rate" required placeholder="Enter rate">
-                </div>
-                <div class="chemical-column">
-                    <label for="chemical-amount1">Amount to use:</label>
-                    <div class="chemical-amount" id="chemical-amount1"></div>
-                </div>
-            </div>
-            <!-- Repeat for Chemical 2 -->
-            <div class="chemical-row">
-                <div class="chemical-column">
-                    <label for="chemical2">Chemical 2:</label>
-                    <select id="chemical2" name="chemical2" class="chemical-select" onchange="updateRate(2)" required>
-                        <option value="" disabled selected>Select chemical</option>
-                        <option value="3-Way">3-Way</option>
-                        <option value="Triclopyr">Triclopyr</option>
-                        <option value="Dimension">Dimension</option>
-                        <option value="ChemStick">ChemStick</option>
-                        <option value="Bifenthrin">Bifenthrin</option><!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="chemical-column">
-                    <label for="rate2">Rate (oz/M):</label>
-                    <input type="number" step="0.01" id="rate2" name="rate2" class="chemical-rate" required placeholder="Enter rate">
-                </div>
-                <div class="chemical-column">
-                    <label for="chemical-amount2">Amount to use:</label>
-                    <div class="chemical-amount" id="chemical-amount2"></div>
-                </div>
-            </div>
-            <!-- Repeat for Chemical 3 -->
-            <div class="chemical-row">
-                <div class="chemical-column">
-                    <label for="chemical3">Chemical 3:</label>
-                    <select id="chemical3" name="chemical3" class="chemical-select" onchange="updateRate(3)" required>
-                        <option value="" disabled selected>Select chemical</option>
-                        <option value="">3-Way</option>
-                        <option value="Triclopyr">Triclopyr</option>
-                        <option value="Dimension">Dimension</option>
-                        <option value="ChemStick">ChemStick</option>
-                        <option value="Bifenthrin">Bifenthrin</option><!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="chemical-column">
-                    <label for="rate3">Rate (oz/M):</label>
-                    <input type="number" step="0.01" id="rate3" name="rate3" class="chemical-rate" required placeholder="Enter rate">
-                </div>
-                <div class="chemical-column">
-                    <label for="chemical-amount3">Amount to use:</label>
-                    <div class="chemical-amount" id="chemical-amount3"></div>
-                </div>
-            </div>
-            <!-- Repeat for Chemical 4 -->
-            <div class="chemical-row">
-                <div class="chemical-column">
-                    <label for="chemical4">Chemical 4:</label>
-                    <select id="chemical4" name="chemical4" class="chemical-select" onchange="updateRate(4)" required>
-                        <option value="" disabled selected>Select chemical</option>
-                        <option value="">3-Way</option>
-                        <option value="Triclopyr">Triclopyr</option>
-                        <option value="Dimension">Dimension</option>
-                        <option value="ChemStick">ChemStick</option>
-                        <option value="Bifenthrin">Bifenthrin</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="chemical-column">
-                    <label for="rate4">Rate (oz/M):</label>
-                    <input type="number" step="0.01" id="rate4" name="rate4" class="chemical-rate" required placeholder="Enter rate">
-                </div>
-                <div class="chemical-column">
-                    <label for="chemical-amount4">Amount to use:</label>
-                    <div class="chemical-amount" id="chemical-amount4"></div>
+
+    <script src="script.js"></script>
+
+    <!-- Add this inside the <body> tag, below the existing content -->
+    <div id="calculator-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="hideModals()">&times;</span>
+            <h2>Calculator</h2>
+            <div class="calculator">
+                <input type="text" id="calc-display" disabled>
+                <div class="calc-buttons">
+                    <button onclick="calcInput('7')">7</button>
+                    <button onclick="calcInput('8')">8</button>
+                    <button onclick="calcInput('9')">9</button>
+                    <button onclick="calcInput('/')">/</button>
+                    <button onclick="calcInput('4')">4</button>
+                    <button onclick="calcInput('5')">5</button>
+                    <button onclick="calcInput('6')">6</button>
+                    <button onclick="calcInput('*')">*</button>
+                    <button onclick="calcInput('1')">1</button>
+                    <button onclick="calcInput('2')">2</button>
+                    <button onclick="calcInput('3')">3</button>
+                    <button onclick="calcInput('-')">-</button>
+                    <button onclick="calcInput('0')">0</button>
+                    <button onclick="calcInput('.')">.</button>
+                    <button onclick="calcClear()">C</button>
+                    <button onclick="calcInput('+')">+</button>
+                    <button onclick="calcCalculate()">=</button>
                 </div>
             </div>
         </div>
-        
-        <button type="button" onclick="calculateMixture()">Submit</button>
-    </form>
-    
-    <div id="results"></div>
+    </div>
 
-    <script src="script.js"></script>
 </body>
+
 </html>
