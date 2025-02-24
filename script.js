@@ -1,50 +1,50 @@
 const presets = {
     round1: [
         { chemical: '3-Way', rate: 1.0 },
-        { chemical: 'Triclopyr', rate: 0.75 },
-        { chemical: 'ChemStick', rate: 0.01 }
+        { chemical: 'Triclopyr', rate: 0.25 },
+        { chemical: 'ChemStick', rate: 8.0 }
     ],
     round2: [
         { chemical: '3-Way', rate: 1.0 },
-        { chemical: 'Triclopyr', rate: 0.75 },
+        { chemical: 'Triclopyr', rate: 0.25 },
         { chemical: 'Dimension', rate: 0.4 },
-        { chemical: 'ChemStick', rate: 0.01 }
+        { chemical: 'ChemStick', rate: 8.0 }
     ],
     round3: [
         { chemical: 'Spartan/ 3-Way', rate: 1.0 },
-        { chemical: 'ChemStick', rate: 0.01 }
+        { chemical: 'ChemStick', rate: 8.0 }
     ],
     round4: [
         { chemical: 'Spartan/ 3-Way', rate: 1.0 },
-        { chemical: 'ChemStick', rate: 0.01 }
+        { chemical: 'ChemStick', rate: 8.0 }
     ],
     round5: [
         { chemical: '3-Way', rate: 1.0 },
-        { chemical: 'Triclopyr', rate: 0.75 },
-        { chemical: 'ChemStick', rate: 0.01 }
+        { chemical: 'Triclopyr', rate: 0.25 },
+        { chemical: 'ChemStick', rate: 8.0 }
     ],
     round6: [
         { chemical: '3-Way', rate: 1.0 },
-        { chemical: 'Triclopyr', rate: 0.75 },
-        { chemical: 'ChemStick', rate: 0.01 }
+        { chemical: 'Triclopyr', rate: 0.25 },
+        { chemical: 'ChemStick', rate: 8.0 }
     ],
     grub: [
-        { chemical: 'Bifenthrin', rate: 1.0 } // Check rate and chemical
+        { chemical: 'Talstar P', rate: 1.0 } // Check rate and chemical
     ],
     mosquito: [
-        { chemical: 'Bifenthrin', rate: 1.0 }
+        { chemical: 'Talstar P', rate: 1.0 }
     ],
     violet: [
         { chemical: 'Triclopyr', rate: 1.5 },
-        { chemical: 'ChemStick', rate: 0.01 }
+        { chemical: 'ChemStick', rate: 8.0 }
     ],
     summer: [
         { chemical: 'Azoxystrobin', rate: 0.77 },
-        { chemical: 'ChemStick', rate: 0.01 }
+        { chemical: 'ChemStick', rate: 8.0 }
     ],
     grassy: [
         { chemical: 'Pylex', rate: 0.75 },
-        { chemical: 'Microyl', rate: 0.01 } /* check Microyl rate */
+        { chemical: 'Microyl', rate: 8.0 } /* check Microyl rate */
     ]
     // Add more presets as needed
 };
@@ -102,7 +102,14 @@ function loadPreset(presetKey, sqFeet, buttonName) {
     resultsHeader.textContent = `Mixing Instructions for ${buttonName}`;
 
     presets[presetKey].forEach(chem => {
-        const amount = sqFeet * chem.rate;
+        let amount;
+        if (chem.chemical === 'ChemStick') {
+            //ChemStick is always 4-8 ounces per 100 gallons of water
+            const waterVolume = document.getElementById('water-volume').value;
+            amount = (waterVolume / 100) * chem.rate;
+        } else {
+            amount = sqFeet * chem.rate;
+        }
         const row = `
             <tr>
                 <td>${chem.chemical}</td>
