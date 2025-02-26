@@ -80,7 +80,7 @@ document.querySelectorAll('button[data-preset]').forEach(button => {
 
         const presetKey = button.dataset.preset;
         const buttonText = button.textContent.trim(); // Get visible button text
-        loadPreset(presetKey, sqFeet, buttonText);
+        loadPreset(presetKey, sqFeet, buttonText, button);
     });
 });
 
@@ -93,18 +93,40 @@ function formatOunces(totalOunces) {
     return `${totalOunces.toFixed(2).replace(/\.00$/, '')} oz`;
 }
 
-function loadPreset(presetKey, sqFeet, buttonName) {
-    const resultsBody = document.getElementById('results-body');
-    resultsBody.innerHTML = '';
+function loadPreset(presetKey, sqFeet, buttonName, buttonElement) {
+    // Create or select the results container under the clicked button
+    let resultsContainer = buttonElement.nextElementSibling;
+    if (!resultsContainer || !resultsContainer.classList.contains('results-container')) {
+        resultsContainer = document.createElement('div');
+        resultsContainer.classList.add('results-container');
+        buttonElement.insertAdjacentElement('afterend', resultsContainer);
+    }
+    resultsContainer.innerHTML = '';
 
     // Update results header
-    const resultsHeader = document.querySelector('#results h2');
+    const resultsHeader = document.createElement('h2');
     resultsHeader.textContent = `Mixing Instructions for ${buttonName}`;
+    resultsContainer.appendChild(resultsHeader);
+
+    const resultsTable = document.createElement('table');
+    resultsTable.innerHTML = `
+        <thead>
+            <tr>
+                <th>Chemical</th>
+                <th>Rate (oz/M)</th>
+                <th>Amount to Use</th>
+            </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+    `;
+    resultsContainer.appendChild(resultsTable);
+
+    const resultsBody = resultsTable.querySelector('#results-body');
 
     presets[presetKey].forEach(chem => {
         let amount;
         if (chem.chemical === 'ChemStick') {
-            //ChemStick is always 4-8 ounces per 100 gallons of water
+            // ChemStick is always 4-8 ounces per 100 gallons of water
             const waterVolume = document.getElementById('water-volume').value;
             amount = (waterVolume / 100) * chem.rate;
         } else {
@@ -120,7 +142,7 @@ function loadPreset(presetKey, sqFeet, buttonName) {
         resultsBody.innerHTML += row;
     });
 
-    document.getElementById('results').classList.remove('hidden');
+    resultsContainer.classList.remove('hidden');
 }
 
 // Add this function to generate labels list
