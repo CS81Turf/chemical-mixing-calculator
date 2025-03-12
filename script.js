@@ -100,7 +100,16 @@ function loadPreset(presetKey, sqFeet, buttonName, buttonElement) {
         resultsContainer = document.createElement('div');
         resultsContainer.classList.add('results-container');
         buttonElement.insertAdjacentElement('afterend', resultsContainer);
+    } else {
+        // Toggle visibility
+        if (!resultsContainer.classList.contains('hidden')) {
+            resultsContainer.classList.add('hidden');
+            return;
+        } else {
+            resultsContainer.classList.remove('hidden');
+        }
     }
+
     resultsContainer.innerHTML = '';
 
     // Update results header
@@ -148,7 +157,7 @@ function loadPreset(presetKey, sqFeet, buttonName, buttonElement) {
 // Add this function to generate labels list
 function generateLabelLinks() {
     const chemicals = new Set(); // Using Set to avoid duplicates
-    
+
     // Collect all unique chemicals from presets
     Object.values(presets).forEach(preset => {
         preset.forEach(chem => {
@@ -172,7 +181,7 @@ function generateLabelLinks() {
             </a>
         `;
     });
-    
+
     return html || '<p>No chemical labels found</p>';
 }
 
