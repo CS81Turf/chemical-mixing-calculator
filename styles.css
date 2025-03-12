@@ -189,7 +189,7 @@ tr:nth-child(even) {
 }
 
 .results-container th {
-    background-color: #f2f2f2;
+    background-color: #070707;
 }
 
 @media (max-width: 600px) {
