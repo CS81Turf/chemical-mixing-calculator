@@ -170,7 +170,9 @@ tr:nth-child(even) {
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
-    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .results-container h2 {
@@ -186,10 +188,11 @@ tr:nth-child(even) {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+    white-space: nowrap;
 }
 
 .results-container th {
-    background-color: #070707;
+    background-color:  #070707;
 }
 
 @media (max-width: 600px) {
