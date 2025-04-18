@@ -35,7 +35,7 @@ const presets = {
         { chemical: 'Talstar P', rate: 1.0 }
     ],
     violet: [
-        { chemical: 'Triclopyr', rate: 1.5 },
+        { chemical: 'Triclopyr', rate: .75 },
         { chemical: 'ChemStick', rate: 8.0 }
     ],
     summer: [
