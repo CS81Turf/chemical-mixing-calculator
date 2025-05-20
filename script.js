@@ -29,7 +29,7 @@ const presets = {
         { chemical: 'ChemStick', rate: 8.0 }
     ],
     grub: [
-        { chemical: 'Imidacloprid', rate: 0.5 } // Check rate and chemical
+        { chemical: 'Imidacloprid', rate: 0.5 }, // Check rate and chemical
         { chemical: 'Bifenthrin', rate: 1.0 }
     ],
     mosquito: [
