@@ -45,7 +45,7 @@ const presets = {
     ],
     grassy: [
         { chemical: 'Pylex', rate: 0.75 },
-        { chemical: 'Microyl', rate: 8.0 } /* check Microyl rate */
+        { chemical: 'Microyl', rate: .0204 } /* check Microyl rate */
     ]
     // Add more presets as needed
 };
