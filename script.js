@@ -30,6 +30,7 @@ const presets = {
     ],
     grub: [
         { chemical: 'Imidacloprid', rate: 0.5 } // Check rate and chemical
+        { chrmical: 'Bifenthrin', rate: 1.0
     ],
     mosquito: [
         { chemical: 'Talstar P', rate: 1.0 }
